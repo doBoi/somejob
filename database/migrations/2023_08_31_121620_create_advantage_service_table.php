@@ -15,7 +15,8 @@ class CreateAdvantageServiceTable extends Migration
     {
         Schema::create('advantage_service', function (Blueprint $table) {
             $table->id();
-            $table->integer('sevice_id')->nullable();
+            // $table->integer('sevice_id')->nullable();
+            $table->foreignId('service_id')->index('fk_advantage_service_to_service');
             $table->string('advantage')->nullable();
             $table->softDeletes();
             $table->timestamps();
