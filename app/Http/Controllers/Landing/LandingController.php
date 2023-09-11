@@ -82,4 +82,26 @@ class LandingController extends Controller
     {
         //
     }
+
+    //custom
+
+    public function explorer()
+    {
+        //
+    }
+
+    public function detail($id)
+    {
+        //
+    }
+
+    public function booking($id)
+    {
+        //
+    }
+
+    public function detail_booking($id)
+    {
+        //
+    }
 }

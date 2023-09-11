@@ -82,4 +82,11 @@ class ProfileController extends Controller
     {
         //
     }
+
+    //custom
+
+    public function profile($id)
+    {
+        //
+    }
 }
