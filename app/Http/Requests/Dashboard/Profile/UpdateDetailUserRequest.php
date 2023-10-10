@@ -31,8 +31,9 @@ class UpdateDetailUserRequest extends FormRequest
         return [
             'photo' => [
                 'nullable',
-                'file',
-                'max:1024',
+                'image',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:2048',
             ],
             'role' => [
                 'nullable',
@@ -41,8 +42,8 @@ class UpdateDetailUserRequest extends FormRequest
             ],
             'contact_number' => [
                 'required',
-                'regex:/(^([a-zA-Z]+)(\d+)?$)/u',
-                'max:12',
+                'string',
+                'max:15',
             ],
             'biography' => [
                 'nullable',

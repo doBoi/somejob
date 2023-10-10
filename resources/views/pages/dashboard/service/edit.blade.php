@@ -49,7 +49,8 @@
 
                     <input placeholder="Service apa yang ingin kamu tawarkan?" type="text" name="service-name"
                       id="service-name" autocomplete="service-name"
-                      class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                      class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                      value="{{ $service->title }}">
                   </div>
 
                   <div class="col-span-6">
@@ -58,7 +59,8 @@
 
                     <input placeholder="Jelaskan Service apa yang kamu tawarkan?" type="text" name="service-name"
                       id="service-name" autocomplete="service-name"
-                      class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                      class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                      value="{{ $service->description }}">
                   </div>
 
                   <div class="col-span-6">
@@ -123,7 +125,8 @@
 
                     <input placeholder="Total Harga Service Kamu" type="number" name="service-name" id="service-name"
                       autocomplete="service-name"
-                      class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                      class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                      value="{{ $service->price }}">
                   </div>
 
                   <div class="col-span-6">
@@ -180,7 +183,8 @@
 
                     <input placeholder="Hal yang ingin disampaikan oleh kamu?" type="text" name="service-name"
                       id="service-name" autocomplete="service-name"
-                      class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                      class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                      value="{{ $service->note }}">
                   </div>
 
                   <div class="col-span-6">

@@ -9,7 +9,7 @@
     <div class="grid w-full gap-5 px-10 mx-auto md:grid-cols-12">
       <div class="col-span-8">
         <h2 class="mt-8 mb-1 text-2xl font-semibold text-gray-700">
-          My Services
+          My user
         </h2>
         <p class="text-sm text-gray-400">
           3 Total Services
@@ -54,7 +54,7 @@
 
                 <!-- details heading -->
                 <div class="details-heading">
-                  <h1 class="text-2xl font-semibold">I Will Design WordPress eCommerce Modules</h1>
+                  <h1 class="text-2xl font-semibold">{{ $service->title }}</h1>
                   <div class="my-3">
                     @include('components.dashboard.rating')
                   </div>
@@ -104,24 +104,24 @@
                       <h2 class="text-xl font-semibold">About This <span class="text-serv-button">Services</span></h2>
                       <div class="mt-4 mb-8 content-description">
                         <p>
-                          I will design wordpress ecommerce modules, professional website for you using WordPress! With
-                          this Services
+                          {{$service->note}}
                         </p>
                       </div>
 
                       <h3 class="my-4 text-lg font-semibold">Why choose my Service?</h3>
 
                       <ul class="mb-4 list-check">
-                        <li class="pl-10 my-2">Fast delivery</li>
-                        <li class="pl-10 my-2">Wide plugin support within WordPress</li>
-                        <li class="pl-10 my-2">I can design logos and such for your website</li>
-                        <li class="pl-10 my-2">Easily Communicate with me</li>
-                      </ul>
+                        @foreach ($advantage_users as $advantage_user)
+                        <li class="pl-10 my-2">{{ $advantage_user->advantage }}</li>
+                        @endforeach
 
+                      </ul>
+                      @foreach ($taglines as $tagline)
                       <p class="mb-4">
-                        If you only require modifications made to an existing WordPress website that you have, I have a
-                        different Services for that, which you can find on my profile!
+                        {{$tagline->tagline}}
                       </p>
+                      @endforeach
+
 
                       <p class="mb-4 font-medium">
                         Contact me to get started!
@@ -141,7 +141,7 @@
                         <circle cx="12" cy="12" r="8" stroke="#082431" stroke-width="1.5" />
                         <path d="M12 7V12L15 13.5" stroke="#082431" stroke-width="1.5" stroke-linecap="round" />
                       </svg>
-                      7 Days Delivery
+                      {{ $service->delivery_time }} Days Delivery
                     </div>
                     <div class="flex-1 text-sm font-medium text-center">
                       <svg class="inline" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -156,17 +156,15 @@
                         <path d="M16 3L18.8586 5.85858C18.9247 5.92468 18.9247 6.06332 18.8586 6.14142L16 9"
                           stroke="#082431" stroke-width="1.5" stroke-linecap="round" />
                       </svg>
-                      1 Revision Limit
+                      {{ $service->revision_limit }} Revision Limit
                     </div>
                   </div>
 
                   <div class="px-4 pt-4 pb-2 features-list">
                     <ul class="mb-4 text-sm list-check">
-                      <li class="pl-10 my-4">3 Pages</li>
-                      <li class="pl-10 my-4">Customized Design</li>
-                      <li class="pl-10 my-4">Responsive Design</li>
-                      <li class="pl-10 my-4">3 Plugins/Extensions</li>
-                      <li class="pl-10 my-4">E-Commerce Functionality</li>
+                      @foreach ($advantage_services as $advantage_service)
+                      <li class="pl-10 my-2">{{ $advantage_service->advantage }}</li>
+                      @endforeach
                     </ul>
                   </div>
 
@@ -178,7 +176,7 @@
                         </td>
 
                         <td class="mb-4 text-xl font-semibold text-right text-serv-button">
-                          Rp120.000
+                          Rp {{number_format($service->price, 0, ',', '.') }}
                         </td>
                       </tr>
                     </table>
@@ -202,7 +200,7 @@
                   class="inline-flex justify-center px-4 py-2 mr-4 text-sm font-medium text-gray-700 bg-white border border-gray-600 rounded-lg shadow-sm hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300">
                   See Reviews
                 </a>
-                <a href="{{ route('member.service.edit',1) }}"
+                <a href="{{ route('member.service.edit',$service->id) }}"
                   class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white border border-transparent rounded-lg shadow-sm bg-serv-email hover:bg-serv-email-text focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-serv-email">
                   Edit Service
                 </a>

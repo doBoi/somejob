@@ -17,7 +17,7 @@ class UpdateProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
         // set ke true agar validation jalan
     }
 

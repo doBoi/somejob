@@ -36,6 +36,7 @@
               </tr>
             </thead>
             <tbody class="bg-white">
+              @foreach ($orders as $order)
               <tr class="text-gray-700 border-b">
                 <td class="px-1 py-5 text-sm w-2/8">
                   <div class="flex items-center text-sm">
@@ -45,8 +46,8 @@
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>
-                      <p class="font-medium text-black">Alexa Sara</p>
-                      <p class="text-sm text-gray-400">UI Designer</p>
+                      <p class="font-medium text-black">{{ $order->user_freelancer->name }}</p>
+                      <p class="text-sm text-gray-400">{{ $order->user_freelancer->detail_user->role }}</p>
                     </div>
                   </div>
                 </td>
@@ -59,108 +60,27 @@
                     </div>
                     <div>
                       <p class="font-medium text-black">
-                        Design WordPress <br>E-Commerce Modules
+                        {{ $order->service->title}}
                       </p>
                     </div>
                   </div>
                 </td>
                 <td class="px-1 py-5 text-sm">
-                  Rp120.000
+                  Rp {{number_format($order->service->price, 0, ',', '.') }}
                 </td>
                 <td class="px-1 py-5 text-sm text-green-500 text-md">
-                  Approved
+                  {{ $order->order_status->name}}
                 </td>
                 <td class="px-1 py-5 text-sm">
-                  <a href="{{ route('member.request.show',1)}}"
+                  <a href="{{ route('member.request.show',$order->id)}}"
                     class="px-4 py-2 mt-2 text-left text-white rounded-xl bg-serv-email">
                     Details
                   </a>
                 </td>
               </tr>
-              <tr class="text-gray-700 border-b">
-                <td class="px-1 py-5 text-sm w-2/8">
-                  <div class="flex items-center text-sm">
-                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
-                      <img class="object-cover w-full h-full rounded-full"
-                        src="{{ url('https://randomuser.me/api/portraits/men/10.jpg') }}" alt="" loading="lazy" />
-                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                    </div>
-                    <div>
-                      <p class="font-medium text-black">Trisa Jenny</p>
-                      <p class="text-sm text-gray-400">Icon Designer</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="w-2/6 px-1 py-5">
-                  <div class="flex items-center text-sm">
-                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
-                      <img class="object-cover w-full h-full rounded"
-                        src="{{ url('https://randomuser.me/api/portraits/men/7.jpg') }}" alt="" loading="lazy" />
-                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                    </div>
-                    <div>
-                      <p class="font-medium text-black">
-                        Fix Any Issue on Your <br>
-                        WordPress Website
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-1 py-5 text-sm">
-                  Rp120.000
-                </td>
-                <td class="px-1 py-5 text-sm text-green-500 text-md">
-                  Approved
-                </td>
-                <td class="px-1 py-5 text-sm">
-                  <a href="{{ route('member.request.show',1)}}"
-                    class="px-4 py-2 mt-2 text-left text-white rounded-xl bg-serv-email">
-                    Details
-                  </a>
-                </td>
-              </tr>
-              <tr class="text-gray-700">
-                <td class="px-1 py-5 text-sm w-2/8">
-                  <div class="flex items-center text-sm">
-                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
-                      <img class="object-cover w-full h-full rounded-full"
-                        src="{{ url('https://randomuser.me/api/portraits/men/12.jpg') }}" alt="" loading="lazy" />
-                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                    </div>
-                    <div>
-                      <p class="font-medium text-black">Joorudan</p>
-                      <p class="text-sm text-gray-400">Full - Stack Developer</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="w-2/6 px-1 py-5">
-                  <div class="flex items-center text-sm">
-                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
-                      <img class="object-cover w-full h-full rounded"
-                        src="{{ url('https://randomuser.me/api/portraits/men/5.jpg') }}" alt="" loading="lazy" />'
-                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                    </div>
-                    <div>
-                      <p class="font-medium text-black">
-                        Create a UI Design <br>
-                        for Your Application
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-1 py-5 text-sm">
-                  Rp120.000
-                </td>
-                <td class="px-1 py-5 text-sm text-yellow-500 text-md">
-                  Pending
-                </td>
-                <td class="px-1 py-5 text-sm">
-                  <a href="{{ route('member.request.show',1) }}"
-                    class="px-4 py-2 mt-2 text-left text-white rounded-xl bg-serv-email">
-                    Details
-                  </a>
-                </td>
-              </tr>
+
+              @endforeach
+
             </tbody>
           </table>
         </div>

@@ -65,18 +65,9 @@
       </div>
       <div class="flex overflow-x-scroll pb-10 hide-scroll-bar dragscroll -mx-3">
         <div class="flex flex-nowrap">
+          @foreach ($services as $service)
           @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
-          @include('components.Landing.service')
+          @endforeach
         </div>
 
       </div>

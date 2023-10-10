@@ -3,10 +3,32 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+
+
+
+use App\Models\AdvantageService;
+use App\Models\AdvantageUser;
+use App\Models\DetailUser;
+use App\Models\ExperienceUser;
+use App\Models\Order;
+use App\Models\OrderStatus;
+use App\Models\Service;
+use App\Models\Tagline;
+use App\Models\ThumbnailService;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation;
+use Symfony\Component\HttpFoundation\Response;
 
 class MemberController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +36,22 @@ class MemberController extends Controller
      */
     public function index()
     {
-        return view('pages.dashboard.index');
+        $orders = Order::where('freelancer_id', Auth::user()->id)->get();
+        $progress_orders = Order::where('freelancer_id', Auth::user()->id)
+            ->where('order_status_id', 2)
+            ->get();
+
+        $progres = Order::where('freelancer_id', Auth::user()->id)
+            ->where('order_status_id', 2)->count();
+        $complete = Order::where('freelancer_id', Auth::user()->id)
+            ->where('order_status_id', 1)->count();
+
+        $freelancer = Order::where('buyer_id', Auth::user()->id)
+            ->where('order_status_id', 2)
+            ->distinct('freelancer_id')
+            ->count();
+
+        return view('pages.dashboard.index', compact('orders', 'progres', 'complete', 'freelancer', 'progress_orders'));
     }
 
     /**
@@ -24,6 +61,7 @@ class MemberController extends Controller
      */
     public function create()
     {
+        return abort(404);
         //
     }
 
@@ -46,6 +84,7 @@ class MemberController extends Controller
      */
     public function show($id)
     {
+        return abort(404);
         //
     }
 
@@ -57,6 +96,7 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
+        return abort(404);
         //
     }
 
@@ -69,6 +109,7 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
+        return abort(404);
         //
     }
 
@@ -80,6 +121,7 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
+        return abort(404);
         //
     }
 }

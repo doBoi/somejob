@@ -8,14 +8,24 @@
 
     <div class="flex items-center pt-8 pl-5 space-x-2 border-t border-gray-100">
       <!--Author's profile photo-->
-      <img class="object-cover object-center mr-1 rounded-full w-14 h-14"
-        src="{{ url('https://randomuser.me/api/portraits/men/1.jpg') }}" alt="random user" />
+      <span class="inline-block w-16 h-16 overflow-hidden bg-gray-100 rounded-full">
+        @if (Auth::user()->detail_user->photo !== null)
+        <img src="{{ asset('storage/'.Auth::user()->detail_user->photo) }}" alt="">
+        @else
+        <svg class="w-full h-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        @endif
+      </span>
+      {{-- <img class="object-cover object-center mr-1 rounded-full w-14 h-14"
+        src="{{ url('https://randomuser.me/api/portraits/men/1.jpg') }}" alt="random user" /> --}}
 
       <div>
         <!--Author name-->
         <p class="font-semibold text-gray-900 text-md">{{ Auth::user()->name }}</p>
         <p class="text-sm font-light text-serv-text">
-          Website Developer
+          {{ Auth::user()->detail_user->role }}
         </p>
       </div>
     </div>

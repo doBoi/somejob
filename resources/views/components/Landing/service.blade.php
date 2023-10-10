@@ -1,4 +1,4 @@
-<a href="{{ route('detail.landing',1) }}" class="inline-block px-3">
+<a href="{{ route('detail.landing',$service->id) }}" class="inline-block px-3">
   <div class="w-96 h-auto overflow-hidden md:p-5 p-4 bg-white rounded-2xl inline-block">
     <div class="flex items-center space-x-2 mb-6">
       <!--Author's profile photo-->
@@ -6,9 +6,9 @@
         src="{{ url('https://randomuser.me/api/portraits/men/1.jpg') }}" alt="random user" />
       <div>
         <!--Author name-->
-        <p class="text-gray-900 font-semibold text-lg">Alex Jones</p>
+        <p class="text-gray-900 font-semibold text-lg">{{ $service->user->name }}</p>
         <p class="text-serv-text font-light text-md">
-          Website Developer
+          {{ $service->user->detail_user->role }}
         </p>
       </div>
     </div>
@@ -18,8 +18,7 @@
 
     <!--Title-->
     <h1 class="font-semibold text-gray-900 text-lg mt-1 leading-normal py-4">
-      I Will Design WordPress eCommerce
-      Modules
+      {{ $service->title }}
     </h1>
     <!--Description-->
     <div class="max-w-full">
@@ -31,7 +30,7 @@
         Price starts from:
       </span>
       <span class="text-serv-button inline-flex items-center leading-none text-md font-semibold">
-        Rp 120.000
+        Rp {{number_format($service->price, 0, ',', '.') }}
       </span>
     </div>
   </div>

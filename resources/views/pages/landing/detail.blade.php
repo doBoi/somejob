@@ -27,7 +27,7 @@
       <main class="p-4 lg:col-span-8 md:col-span-12">
         <!-- details heading -->
         <div class="details-heading">
-          <h1 class="text-2xl font-semibold">I Will Design WordPress eCommerce Modules</h1>
+          <h1 class="text-2xl font-semibold">{{ $service->title }}</h1>
           <div class="my-3">
             @include('components.Landing.rating')
           </div>
@@ -83,23 +83,17 @@
             <div x-show.transition.duration.500ms="tab === 'description'" class="leading-8 text-md">
               <h2 class="text-xl font-semibold">About This <span class="text-serv-button">Services</span></h2>
               <div class="mt-4 mb-8 content-description">
-                <p>
-                  I will design wordpress ecommerce modules, professional website for you using WordPress! With this
-                  Services
+                <p>{{ $service->note }}
                 </p>
               </div>
               <h3 class="my-4 text-lg font-semibold">Why choose my Service?</h3>
-              <ul class="mb-4 list-check">
-                <li class="pl-10 my-2">Fast delivery</li>
-                <li class="pl-10 my-2">Wide plugin support within WordPress</li>
-                <li class="pl-10 my-2">I can design logos and such for your website</li>
-                <li class="pl-10 my-2">Easily Communicate with me</li>
-              </ul>
-              <p class="mb-4">
-                If you only require modifications made to an existing WordPress website that you have, I have a
-                different
-                Services for that, which you can find on my profile!
+              <ul class="mb-4 list-check">@foreach ($advantage_user as $item)
+                <li class="pl-10 my-2">{{ $item->advantage }}</li>
+                @endforeach
+              </ul>@foreach ($tagline as $item)
+              <p class="mb-4">{{ $item->tagline }}
               </p>
+              @endforeach
               <p class="mb-4 font-medium">
                 Contact me to get started!
               </p>
@@ -115,10 +109,10 @@
                   </div>
                   <div class="flex-grow p-4 -mt-8 leading-8 lg:mt-0">
                     <div class="text-lg font-semibold text-gray-700">
-                      Alex Jones
+                      {{ $service->user->name }}
                     </div>
                     <div class="text-gray-400">
-                      Bandung, Indonesia
+                      Jakarta, Indonesia
                     </div>
                   </div>
                 </div>
@@ -130,19 +124,14 @@
               </div>
               <h3 class="my-4 text-lg font-semibold">Biography</h3>
               <div class="mt-4 mb-8 content-description">
-                <p>
-                  I am a web developer and web designer. I have an Associate Degree in Software
-                  and Web Development, and I have much experience in programming languages,
-                  such as HTML5, CSS3, PHP, Javascript and PHP. I can use Bootstrap and WordPress.
-                  I will provide fast response and clear communication in several languages.
-                  Feel free to contact me, thank you!
+                <p>{{ $service->user->biography }}
                 </p>
               </div>
               <h3 class="my-4 text-lg font-semibold">My Experiences</h3>
               <ul class="mb-8 list-check">
-                <li class="pl-10 my-2">More than 9 years of experience</li>
-                <li class="pl-10 my-2">Knowledge in the fields of interface design, marketing and etc</li>
-                <li class="pl-10 my-2">Lead Developer at Sony Music for 8 Years</li>
+                @foreach ($service->user->detail_user->experience_user as $item)
+                <li class="pl-10 my-2">{{ $item->experience }}</li>
+                @endforeach
               </ul>
               <h3 class="my-4 text-lg font-semibold">Skills</h3>
               <div class="mb-8 skills">
@@ -170,10 +159,10 @@
               alt="avatar">
             <div class="w-full">
               <div class="flex items-center justify-between">
-                <h2 class="my-1 text-xl font-medium text-serv-bg">Farzhan Pill</h2>
+                <h2 class="my-1 text-xl font-medium text-serv-bg">{{ $service->user->name }}</h2>
               </div>
               <p class="text-md text-serv-text">
-                Website Developer
+                {{ $service->user->detail_user->role }}
               </p>
             </div>
           </div>
@@ -184,7 +173,7 @@
                 <circle cx="12" cy="12" r="8" stroke="#082431" stroke-width="1.5" />
                 <path d="M12 7V12L15 13.5" stroke="#082431" stroke-width="1.5" stroke-linecap="round" />
               </svg>
-              7 Days Delivery
+              {{ $service->delivery_time }} Days Delivery
             </div>
             <div class="flex-1 text-sm font-medium text-center">
               <svg class="inline" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -199,16 +188,14 @@
                 <path d="M16 3L18.8586 5.85858C18.9367 5.93668 18.9367 6.06332 18.8586 6.14142L16 9" stroke="#082431"
                   stroke-width="1.5" stroke-linecap="round" />
               </svg>
-              1 Revision Limit
+              {{ $service->revision_limit }} Revision Limit
             </div>
           </div>
           <div class="px-4 pt-4 pb-2 features-list">
             <ul class="mb-4 text-sm list-check">
-              <li class="pl-10 my-4">3 Pages</li>
-              <li class="pl-10 my-4">Customized Design</li>
-              <li class="pl-10 my-4">Responsive Design</li>
-              <li class="pl-10 my-4">3 Plugins/Extensions</li>
-              <li class="pl-10 my-4">E-Commerce Functionality</li>
+              @foreach ($advantage_user as $item)
+              <li class="pl-10 my-4">{{ $item->advantage }}</li>
+              @endforeach
             </ul>
           </div>
           <div class="px-4">
@@ -218,7 +205,7 @@
                   Price starts from:
                 </td>
                 <td class="mb-4 text-xl font-semibold text-right text-serv-button">
-                  Rp120.000
+                  Rp {{number_format($service->price, 0, ',', '.') }}
                 </td>
               </tr>
 

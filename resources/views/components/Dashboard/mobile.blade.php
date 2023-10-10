@@ -11,15 +11,23 @@
     </a>
     <div class="flex items-center pt-5 pl-5 mt-10 space-x-2 border-t border-gray-100">
       <!--Author's profile photo-->
+      @if (Auth::user()->detail_user->photo !== null)
       <img class="object-cover object-center mr-1 rounded-full w-14 h-14"
-        src="{{ asset('https://randomuser.me/api/portraits/men/1.jpg') }}" alt="random user" />
+        src="{{ asset('storage/'.Auth::user()->detail_user->photo) }}" alt=" random user" />
+      @else
+      <svg class="object-cover object-center mr-1 rounded-full w-14 h-14 text-gray-300" fill="currentColor"
+        viewBox="0 0 24 24">
+        <path
+          d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      @endif
+
       <div>
         <!--Author name-->
         <p class="font-semibold text-gray-900 text-md">{{ Auth::user()->name }}</p>
 
         <p class="text-sm font-light text-serv-text">
-          {{-- {{ Auth->user()->detail_user()->role }} --}}
-          Website Developer
+          {{ Auth::user()->detail_user->role }}
         </p>
       </div>
     </div>

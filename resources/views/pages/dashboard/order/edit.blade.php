@@ -48,8 +48,8 @@
                     </div>
 
                     <div>
-                      <p class="font-medium text-black">Alexa Sara</p>
-                      <p class="text-sm text-gray-400">087785091245</p>
+                      <p class="font-medium text-black">{{ $order->user_buyer->name }}</p>
+                      <p class="text-sm text-gray-400">{{ $order->user_buyer->detail_user->contact_number }}</p>
                     </div>
                   </div>
                 </td>
@@ -64,14 +64,14 @@
 
                     <div>
                       <p class="font-medium text-black">
-                        Design WordPress <br>E-Commerce Modules
+                        {{ $order->service->title }}
                       </p>
                     </div>
                   </div>
                 </td>
 
                 <td class="px-1 py-5 text-sm">
-                  Rp120.000
+                  Rp{{ $order->service->price }}
                 </td>
 
                 <td class="px-1 py-5 text-xs text-red-500">

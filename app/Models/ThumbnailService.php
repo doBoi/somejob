@@ -11,7 +11,7 @@ class ThumbnailService extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public $table = 'thumbnail_user';
+    public $table = 'thumbnail_service';
 
     protected $date = [
         'updated_at',

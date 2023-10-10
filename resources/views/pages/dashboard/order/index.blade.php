@@ -40,7 +40,66 @@
             </thead>
 
             <tbody class="bg-white">
+              @foreach ($orders as $order)
+              <tr class="text-gray-700 border-b">
 
+                <td class="px-1 py-5 text-sm w-2/8">
+                  <div class="flex items-center text-sm">
+                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
+                      <img class="object-cover w-full h-full rounded-full"
+                        src="{{ url('https://randomuser.me/api/portraits/men/6.jpg') }}" alt="" loading="lazy" />
+                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                    </div>
+                    <div>
+                      <p class="font-medium text-black">{{ $order->user_buyer->name }}</p>
+                      <p class="text-sm text-gray-400">{{ $order->user_buyer->detail_user->role }}</p>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="w-2/6 px-1 py-5">
+                  <div class="flex items-center text-sm">
+                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
+                      <img class="object-cover w-full h-full rounded"
+                        src="{{ url('https://randomuser.me/api/portraits/men/3.jpg') }}" alt="" loading="lazy" />
+                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                    </div>
+                    <div>
+                      <p class="font-medium text-black">
+                        {{ $order->service->title}}
+                      </p>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="px-1 py-5 text-xs text-red-500">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="inline mb-1">
+                    <path
+                      d="M7.0002 12.8332C10.2219 12.8332 12.8335 10.2215 12.8335 6.99984C12.8335 3.77818 10.2219 1.1665 7.0002 1.1665C3.77854 1.1665 1.16687 3.77818 1.16687 6.99984C1.16687 10.2215 3.77854 12.8332 7.0002 12.8332Z"
+                      stroke="#F26E6E" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M7 3.5V7L9.33333 8.16667" stroke="#F26E6E" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+
+                  3 days left
+                </td>
+
+                <td class="px-0 py-5 text-sm">
+                  <a href="{{ route('member.order.show', $order->id) }}"
+                    class="px-4 py-2 my-5 mt-1 mr-2 text-center text-white rounded-xl bg-serv-email inline-block">
+                    Details</a>
+                  <a href="{{ route('member.order.edit',$order->id) }}"
+                    class="px-4 py-2 mt-2 text-center text-white rounded-xl bg-serv-email inline-block">
+                    Submit
+                  </a>
+                </td>
+
+              </tr>
+              @endforeach
+
+
+              {{-- dummy --}}
               <tr class="text-gray-700 border-b">
 
                 <td class="px-1 py-5 text-sm w-2/8">
@@ -154,62 +213,7 @@
                 </td>
               </tr>
 
-              <tr class="text-gray-700">
-                <td class="px-1 py-5 text-sm w-2/8">
-                  <div class="flex items-center text-sm">
-                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
-                      <img class="object-cover w-full h-full rounded-full"
-                        src="{{ url('https://randomuser.me/api/portraits/men/12.jpg') }}" alt="" loading="lazy" />
-                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                    </div>
-                    <div>
-                      <p class="font-medium text-black">Joorudan</p>
-                      <p class="text-sm text-gray-400">Full - Stack Developer</p>
-                    </div>
-                  </div>
-                </td>
 
-                <td class="w-2/6 px-1 py-5">
-                  <div class="flex items-center text-sm">
-                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
-                      <img class="object-cover w-full h-full rounded"
-                        src="{{ url('https://randomuser.me/api/portraits/men/5.jpg') }}" alt="" loading="lazy" />
-                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                    </div>
-
-                    <div>
-                      <p class="font-medium text-black">
-                        Create a UI Design <br>
-                        for Your Application
-                      </p>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="px-1 py-5 text-xs text-red-500">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="inline mb-1">
-                    <path
-                      d="M7.0002 12.8332C10.2219 12.8332 12.8335 10.2215 12.8335 6.99984C12.8335 3.77818 10.2219 1.1665 7.0002 1.1665C3.77854 1.1665 1.16687 3.77818 1.16687 6.99984C1.16687 10.2215 3.77854 12.8332 7.0002 12.8332Z"
-                      stroke="#F26E6E" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M7 3.5V7L9.33333 8.16667" stroke="#F26E6E" stroke-linecap="round"
-                      stroke-linejoin="round" />
-                  </svg>
-
-                  3 days left
-                </td>
-
-                <td class="px-1 py-5 text-sm">
-                  <a href="{{ route('member.accept.order',1) }}"
-                    class="px-4 py-2 mt-2 text-left text-white rounded-xl inline-block bg-serv-button">
-                    Accept
-                  </a>
-                  <a href="{{ route('member.reject.order',1) }}"
-                    class="px-4 py-2 mt-2 text-left bg-white rounded-xl inline-block text-red-700 ">
-                    Reject
-                  </a>
-                </td>
-              </tr>
 
             </tbody>
 
