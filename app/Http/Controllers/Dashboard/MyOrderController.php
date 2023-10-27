@@ -1,0 +1,152 @@
+<?php
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+
+use App\Http\Requests\Dashboard\MyOrder\UpdateOrderRequest;
+
+
+use App\Models\AdvantageService;
+use App\Models\AdvantageUser;
+use App\Models\Order;
+use App\Models\OrderStatus;
+use App\Models\Service;
+use App\Models\Tagline;
+use App\Models\ThumbnailService;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation;
+use Symfony\Component\HttpFoundation\Response;
+
+class MyOrderController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $orders = Order::where('freelancer_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        return view('pages.dashboard.order.index', compact('orders'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return abort(404);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        return abort(404);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Order $order)
+    {
+        $service = Service::where('id', $order['service_id'])->first();
+        $thumbnails = ThumbnailService::where('service_id', $order['service_id'])->get();
+        $advantage_services = AdvantageService::where('service_id', $order['service_id'])->get();
+        $advantage_users = AdvantageUser::where('service_id', $order['service_id'])->get();
+        $taglines = Tagline::where('service_id', $order['service_id'])->get();
+
+        return view('pages.dashboard.order.detail', compact('order', 'service', 'thumbnails', 'advantage_users', 'advantage_services', 'taglines'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Order $order)
+    {
+        return view('pages.dashboard.order.edit', compact('order'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateOrderRequest $request, Order $order)
+    {
+        $data = $request->all();
+
+        if (isset($data['file'])) {
+            $data['file'] = $request->file('file')->store(
+                'assets/order/attachment',
+                'public'
+            );
+        }
+        $order = Order::find($order->id);
+        $order->file = $data['file'];
+        $order->note = $data['note'];
+        $order->save();
+
+        toast()->success('Submit Order Has Been Success');
+        return redirect()->route('member.order.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        return abort(404);
+    }
+
+
+    //custom
+
+    public function accepted($id)
+    {
+        $order = Order::find($id);
+        $order->order_status_id = 2;
+        $order->save();
+
+        toast()->success('Accept Order Has Been Success');
+        return redirect()->route('member.order.index');
+    }
+
+
+    public function rejected($id)
+    {
+        $order = Order::find($id);
+        $order->order_status_id = 3;
+        $order->save();
+
+        toast()->success('Reject Order Has Been Success');
+        return redirect()->route('member.order.index');
+    }
+}
