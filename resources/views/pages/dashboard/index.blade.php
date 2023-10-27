@@ -21,8 +21,17 @@
         <div @click.away="open = false" class="relative z-10 hidden mt-5 lg:block" x-data="{ open: false }">
           <button
             class="flex flex-row items-center w-full px-4 py-2 mt-2 text-left bg-white rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4">
+            </span>
+            @if (Auth::user()->detail_user->photo !== null)
             <img class="inline w-12 h-12 mr-3 rounded-full"
-              src="{{ url('https://randomuser.me/api/portraits/men/1.jpg') }}" alt="">
+              src="{{ asset('storage/'.Auth::user()->detail_user->photo) }}" alt="">
+            @else
+            <svg class="inline w-12 h-12 mr-3 rounded-full text-gray-600 bg-gray-500" fill="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            @endif
             Hallo, {{ Auth::user()->name }}
           </button>
         </div>
@@ -94,9 +103,17 @@
                 <td class="w-1/4 px-1 py-5">
                   <div class="flex items-center text-sm">
                     <div class="relative w-10 h-10 mr-3 rounded-full md:block">
+                      @if ($order->user_buyer->detail_user->photo != null)
                       <img class="object-cover w-full h-full rounded-full"
-                        src="{{ url('https://randomuser.me/api/portraits/men/4.jpg') }}" alt="" loading="lazy" />
+                        src="{{ asset('storage/'.$order->user_buyer->detail_user->photo) }}" alt="" loading="lazy" />
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                      @else
+                      <svg class="w-full h-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      <div class="absolute inset-0 rounded shadow-inner" aria-hidden="true"></div>
+                      @endif
                     </div>
                     <div>
                       <p class="font-medium text-black">{{ $order->user_buyer->name }}</p>
@@ -108,7 +125,8 @@
                   <div class="flex items-center text-sm">
                     <div class="relative w-10 h-10 mr-3 rounded-full md:block">
                       <img class="object-cover w-full h-full rounded"
-                        src="{{ ('https://randomuser.me/api/portraits/men/5.jpg') }}" alt="" loading="lazy" />
+                        src="{{ url(Storage::url($order->service->thumbnail_service->first()->thumbnail)) }}" alt=""
+                        loading="lazy" />
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>

@@ -42,9 +42,17 @@
                 <td class="px-1 py-5 text-sm w-2/8">
                   <div class="flex items-center text-sm">
                     <div class="relative w-10 h-10 mr-3 rounded-full md:block">
+                      @if ($order->user_buyer->detail_user->photo != null)
                       <img class="object-cover w-full h-full rounded-full"
-                        src="{{ url('https://randomuser.me/api/portraits/men/6.jpg') }}" alt="" loading="lazy" />
+                        src="{{ asset('storage/'.$order->user_buyer->detail_user->photo) }}" alt="" loading="lazy" />
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                      @else
+                      <svg class="w-full h-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      <div class="absolute inset-0 rounded shadow-inner" aria-hidden="true"></div>
+                      @endif
                     </div>
 
                     <div>
@@ -58,7 +66,8 @@
                   <div class="flex items-center text-sm">
                     <div class="relative w-10 h-10 mr-3 rounded-full md:block">
                       <img class="object-cover w-full h-full rounded"
-                        src="https://randomuser.me/api/portraits/men/3.jpg" alt="" loading="lazy" />
+                        src="{{ url(Storage::url($order->service->thumbnail_service->first()->thumbnail)) }}" alt=""
+                        loading="lazy" />
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
 
@@ -71,7 +80,7 @@
                 </td>
 
                 <td class="px-1 py-5 text-sm">
-                  Rp{{ $order->service->price }}
+                  Rp{{number_format($order->service->price, 0, ',', '.') }}
                 </td>
 
                 <td class="px-1 py-5 text-xs text-red-500">
@@ -84,39 +93,62 @@
                       stroke-linejoin="round" />
                   </svg>
 
-                  3 days left
+                  @if ((strtotime($order->expired) - strtotime(date('Y-m-d'))) / 86400 >= 1)
+                  {{ (strtotime($order->expired) - strtotime(date('Y-m-d'))) / 86400 ?? '' }} days left
+                  @else
+                  Expired
+                  @endif
                 </td>
 
               </tr>
             </tbody>
           </table>
+          <form action="{{ route('member.order.update',$order->id) }}" method="POST" enctype="multipart/form-data">
+            @method('PUT')
+            @csrf
+            <div class="flex p-8 border border-gray-200 rounded-lg bg-serv-upload-bg h-128">
+              <div class="m-auto text-center">
+                <img src="{{ asset('assets/images/services-file-icon.svg') }}" alt="" class="w-20 mx-auto">
+                <h2 class="mt-8 mb-1 text-2xl font-semibold text-gray-700">
+                  @if (isset($order->file))
+                  {{ substr($order->file,-10) }}
+                  @else
+                  Upload Before Submit
+                  @endif
+                </h2>
+                <p class="text-sm text-gray-400">
+                  Drag and drop an file, or Browse
+                </p>
+                <div class="relative mt-0 md:mt-6">
+                  @if ((strtotime($order->expired) - strtotime(date('Y-m-d'))) / 86400 >= 1)
+                  @if (isset($order->file))
+                  <a href="{{ url(Storage::url($order->file ?? '')) }}"
+                    class="px-4 py-2 mt-2 text-left text-gray-700 rounded-xl bg-serv-hr">
+                    Download File
+                  </a>
+                  @else
+                  <input type="file" accept=".zip" id='choose' name='file' hidden required>
+                  <label for='choose' class="px-4 py-2 mt-2 text-left text-gray-700 rounded-xl bg-serv-hr">
+                    Choose File
+                  </label>
+                  @endif
 
-          <div class="flex p-8 border border-gray-200 rounded-lg bg-serv-upload-bg h-128">
-            <div class="m-auto text-center">
-              <img src="{{ asset('assets/images/services-file-icon.svg') }}" alt="" class="w-20 mx-auto">
-              <h2 class="mt-8 mb-1 text-2xl font-semibold text-gray-700">
-                ProjectWordpress.zip
-              </h2>
-              <p class="text-sm text-gray-400">
-                Drag and drop an file, or Browse
-              </p>
+                  @else
+                  <button class="px-4 py-2 mt-2 text-left text-gray-700 rounded-xl bg-serv-hr">
+                    Expired
+                  </button>
+                  @endif
 
-              <div class="relative mt-0 md:mt-6">
-                <button class="px-4 py-2 mt-2 text-left text-gray-700 rounded-xl bg-serv-hr">
-                  Choose File
-                </button>
+                </div>
               </div>
             </div>
-          </div>
-
-          <form action="#" method="POST">
             <div class="">
               <div class="p-1 mt-5">
                 <div class="grid grid-cols-6 gap-6">
                   <div class="col-span-6">
                     <label for="service-name" class="block mb-3 font-medium text-gray-700 text-md">Note</label>
-                    <textarea placeholder="Enter your biography here.." type="text" name="service-name"
-                      id="service-name" autocomplete="service-name"
+                    <textarea placeholder="Enter your biography here.." type="text" name="note" id="note"
+                      autocomplete="note"
                       class="block w-full py-3 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                       rows="4">“Hai, aku baru saja mengirim zip file service yang kamu butuhkan. di dalamnya terdapat soft file dan panduan cara menggunakan service ini. terima kasih sudah order. jika butuh sesuatu bisa contact saya di whatsapp”</textarea>
                   </div>
@@ -128,10 +160,13 @@
                   class="inline-flex justify-center px-4 py-2 mr-4 text-sm font-medium text-gray-700 bg-white border border-gray-600 rounded-lg shadow-sm hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300">
                   Back
                 </button>
+                @if ((strtotime($order->expired) - strtotime(date('Y-m-d'))) / 86400 >= 1)
                 <button type="submit"
                   class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-lg shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                   Approve
                 </button>
+                @endif
+
               </div>
             </div>
           </form>

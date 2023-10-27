@@ -9,10 +9,10 @@
     <div class="grid w-full gap-5 px-10 mx-auto md:grid-cols-12">
       <div class="col-span-8">
         <h2 class="mt-8 mb-1 text-2xl font-semibold text-gray-700">
-          My user
+          Detail Order
         </h2>
         <p class="text-sm text-gray-400">
-          3 Total Services
+          {{ $service->title }}
         </p>
       </div>
       <div class="col-span-4 lg:text-right">
@@ -64,35 +64,12 @@
                   <img :src="featured" alt="" class="rounded-lg cursor-pointer w-100" data-lity>
                   <div class="flex overflow-x-scroll hide-scroll-bar dragscroll">
                     <div class="flex mt-2 flex-nowrap">
+                      @foreach ($order->service->thumbnail_service as $item)
                       <img :class="{'border-4 border-serv-button': active === 1}"
-                        @click="changeThumbnail('https://source.unsplash.com/_SgRNwAVNKw/1600x900/',1)"
-                        src="{{ url('https://source.unsplash.com/_SgRNwAVNKw/250x160/') }}" alt=""
-                        class="inline-block w-24 mr-2 rounded-lg cursor-pointer">
-
-                      <img :class="{'border-4 border-serv-button': active === 2}"
-                        @click="changeThumbnail('https://source.unsplash.com/GXNo-OJynTQ/1600x900/',2)"
-                        src="{{ url('https://source.unsplash.com/GXNo-OJynTQ/250x160/') }}" alt=""
-                        class="inline-block w-24 mr-2 rounded-lg cursor-pointer">
-
-                      <img :class="{'border-4 border-serv-button': active === 3}"
-                        @click="changeThumbnail('https://source.unsplash.com/x-HpilsdKEk/1600x900/',3)"
-                        src="{{ url('https://source.unsplash.com/x-HpilsdKEk/250x160/') }}" alt=""
-                        class="inline-block w-24 mr-2 rounded-lg cursor-pointer">
-
-                      <img :class="{'border-4 border-serv-button': active === 4}"
-                        @click="changeThumbnail('https://source.unsplash.com/hLit2zL-Dhk/1600x900/',4)"
-                        src="{{ url('https://source.unsplash.com/hLit2zL-Dhk/250x160/') }}" alt=""
-                        class="inline-block w-24 mr-2 rounded-lg cursor-pointer">
-
-                      <img :class="{'border-4 border-serv-button': active === 5}"
-                        @click="changeThumbnail('https://source.unsplash.com/i1VQZsU86ok/1600x900/',5)"
-                        src="{{ url('https://source.unsplash.com/i1VQZsU86ok/250x160/') }}" alt=""
-                        class="inline-block w-24 mr-2 rounded-lg cursor-pointer">
-
-                      <img :class="{'border-4 border-serv-button': active === 6}"
-                        @click="changeThumbnail('https://source.unsplash.com/iEiUITs149M/1600x900/',6)"
-                        src="{{ url('https://source.unsplash.com/iEiUITs149M/250x160/') }}" alt=""
-                        class="inline-block w-24 mr-2 rounded-lg cursor-pointer">
+                        @click="changeThumbnail({{ $item['thumbanil'] }},1)"
+                        src="{{ url(Storage::url($item->thumbnail)) }}" alt=""
+                        class=" inline-block w-24 mr-2 rounded-lg cursor-pointer">
+                      @endforeach
                     </div>
                   </div>
                 </div>
@@ -111,8 +88,8 @@
                       <h3 class="my-4 text-lg font-semibold">Why choose my Service?</h3>
 
                       <ul class="mb-4 list-check">
-                        @foreach ($advantage_users as $advantage_user)
-                        <li class="pl-10 my-2">{{ $advantage_user->advantage }}</li>
+                        @foreach ($advantage_services as $advantage_service)
+                        <li class="pl-10 my-2">{{ $advantage_service->advantage }}</li>
                         @endforeach
 
                       </ul>
@@ -162,8 +139,8 @@
 
                   <div class="px-4 pt-4 pb-2 features-list">
                     <ul class="mb-4 text-sm list-check">
-                      @foreach ($advantage_services as $advantage_service)
-                      <li class="pl-10 my-2">{{ $advantage_service->advantage }}</li>
+                      @foreach ($advantage_users as $advantage_user)
+                      <li class="pl-10 my-2">{{ $advantage_user->advantage }}</li>
                       @endforeach
                     </ul>
                   </div>

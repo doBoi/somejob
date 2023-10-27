@@ -36,30 +36,12 @@
           <img :src="featured" alt="" class="rounded-lg cursor-pointer w-100" data-lity>
           <div class="flex overflow-x-scroll hide-scroll-bar dragscroll">
             <div class="flex mt-2 flex-nowrap">
-              <img :class="{'border-4 border-serv-button': active === 1}"
-                @click="changeThumbnail('https://source.unsplash.com/_SgRNwAVNKw/1600x900/',1)"
-                src="https://source.unsplash.com/_SgRNwAVNKw/250x160/" alt=""
-                class="inline-block mr-2 rounded-lg cursor-pointer w-36">
-              <img :class="{'border-4 border-serv-button': active === 2}"
-                @click="changeThumbnail('https://source.unsplash.com/GXNo-OJynTQ/1600x900/',2)"
-                src="https://source.unsplash.com/GXNo-OJynTQ/250x160/" alt=""
-                class="inline-block mr-2 rounded-lg cursor-pointer w-36">
-              <img :class="{'border-4 border-serv-button': active === 3}"
-                @click="changeThumbnail('https://source.unsplash.com/x-HpilsdKEk/1600x900/',3)"
-                src="https://source.unsplash.com/x-HpilsdKEk/250x160/" alt=""
-                class="inline-block mr-2 rounded-lg cursor-pointer w-36">
-              <img :class="{'border-4 border-serv-button': active === 4}"
-                @click="changeThumbnail('https://source.unsplash.com/hLit2zL-Dhk/1600x900/',4)"
-                src="https://source.unsplash.com/hLit2zL-Dhk/250x160/" alt=""
-                class="inline-block mr-2 rounded-lg cursor-pointer w-36">
-              <img :class="{'border-4 border-serv-button': active === 5}"
-                @click="changeThumbnail('https://source.unsplash.com/i1VQZsU86ok/1600x900/',5)"
-                src="https://source.unsplash.com/i1VQZsU86ok/250x160/" alt=""
-                class="inline-block mr-2 rounded-lg cursor-pointer w-36">
-              <img :class="{'border-4 border-serv-button': active === 6}"
-                @click="changeThumbnail('https://source.unsplash.com/iEiUITs149M/1600x900/',6)"
-                src="https://source.unsplash.com/iEiUITs149M/250x160/" alt=""
-                class="inline-block mr-2 rounded-lg cursor-pointer w-36">
+              @foreach ($thumbnail as $item)
+              <img :class="{'border-4 border-serv-button': active === {{ $item->id }}}"
+                @click="changeThumbnail('{{ url(Storage::url($item->thumbnail)) }}',{{ $item->id }})"
+                src="{{ url(Storage::url($item->thumbnail)) }}" alt=""
+                class=" inline-block w-24 mr-2 rounded-lg cursor-pointer">
+              @endforeach
             </div>
           </div>
         </div>
@@ -103,9 +85,17 @@
               <div class="grid md:grid-cols-12">
                 <div class="flex items-center col-span-12 p-2 lg:col-span-6">
                   <div class="flex items-center space-x-4">
-                    <img
-                      src="{{ url('https://avatars2.githubusercontent.com/u/1490347?s=460&u=39d7a6b9bc030244e2c509119e5f64eabb2b1727&v=4') }}"
-                      alt="My profile" class="w-20 h-20 rounded-full ">
+                    @if ($service->user->detail_user->photo != null)
+                    <img src="{{ url(Storage::url($service->user->detail_user->photo)) }}" alt="My profile"
+                      class="w-20 h-20 rounded-full ">
+                    @else
+                    <svg class="object-cover object-center mr-1 w-20 h-20 rounded-full text-gray-300"
+                      fill="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    @endif
+
                   </div>
                   <div class="flex-grow p-4 -mt-8 leading-8 lg:mt-0">
                     <div class="text-lg font-semibold text-gray-700">
@@ -154,9 +144,17 @@
         <div class="mb-4 border rounded-lg border-serv-testimonial-border">
           <!--horizantil margin is just for display-->
           <div class="flex items-start px-4 pt-6">
+            @if ($service->user->detail_user->photo != null)
             <img class="object-cover w-16 h-16 mr-4 rounded-full"
-              src="{{ url('https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=6') }}0"
-              alt="avatar">
+              src="{{ url(Storage::url($service->user->detail_user->photo)) }}" alt="avatar">
+            @else
+            <svg class="object-cover w-16 h-16 mr-4  rounded-full text-gray-300" fill="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            @endif
+
             <div class="w-full">
               <div class="flex items-center justify-between">
                 <h2 class="my-1 text-xl font-medium text-serv-bg">{{ $service->user->name }}</h2>
@@ -212,10 +210,18 @@
             </table>
           </div>
           <div class="px-4 pb-4 booking">
-            <a href="#"
+            @auth
+            <a href="{{ route('booking.landing', $service->id) }}"
               class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv-button rounded-xl">
               Booking Now
             </a>
+            @endauth
+            @guest
+            <a onclick="toggleModal('loginModal')"
+              class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv-button rounded-xl">
+              Booking Now
+            </a>
+            @endguest
           </div>
         </div>
       </aside>
@@ -229,3 +235,19 @@
 </div>
 
 @endsection
+
+
+@push('after-script')
+<script>
+  function gallery() {
+            return {
+                featured: 'https://source.unsplash.com/_SgRNwAVNKw/1600x900/',
+                active: 1,
+                changeThumbnail: function(url, position) {
+                    this.featured = url;
+                    this.active = position;
+                }
+            }
+        }
+</script>
+@endpush

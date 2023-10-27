@@ -32,7 +32,7 @@
 
             @include('components.dashboard.header')
 
-            {{-- @include('sweetalert::alert') --}}
+            @include('sweetalert::alert')
 
             @yield('content')
 

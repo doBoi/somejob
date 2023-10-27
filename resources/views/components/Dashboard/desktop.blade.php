@@ -18,8 +18,7 @@
         </svg>
         @endif
       </span>
-      {{-- <img class="object-cover object-center mr-1 rounded-full w-14 h-14"
-        src="{{ url('https://randomuser.me/api/portraits/men/1.jpg') }}" alt="random user" /> --}}
+
 
       <div>
         <!--Author name-->
@@ -99,7 +98,8 @@
             @endif
             <span class="ml-4">My Services</span>
             <span
-              class="inline-flex items-center justify-center px-3 py-2 ml-auto text-xs font-bold leading-none text-green-500 rounded-full bg-serv-green-badge">15</span>
+              class="inline-flex items-center justify-center px-3 py-2 ml-auto text-xs font-bold leading-none text-green-500 rounded-full bg-serv-green-badge">{{
+              Auth::user()->service->count() }}</span>
 
           </a>
       </li>
@@ -138,7 +138,8 @@
 
             <span class="ml-4">My Request</span>
             <span
-              class="inline-flex items-center justify-center px-3 py-2 ml-auto text-xs font-bold leading-none text-green-500 rounded-full bg-serv-green-badge">10</span>
+              class="inline-flex items-center justify-center px-3 py-2 ml-auto text-xs font-bold leading-none text-green-500 rounded-full bg-serv-green-badge">{{
+              Auth::user()->order_buyer->count() }}</span>
 
           </a>
       </li>
@@ -180,7 +181,8 @@
 
             <span class="ml-4">My Orders</span>
             <span
-              class="inline-flex items-center justify-center px-3 py-2 ml-auto text-xs font-bold leading-none text-green-500 rounded-full bg-serv-green-badge">100</span>
+              class="inline-flex items-center justify-center px-3 py-2 ml-auto text-xs font-bold leading-none text-green-500 rounded-full bg-serv-green-badge">{{
+              Auth::user()->order_freelancer->count() }}</span>
 
           </a>
       </li>

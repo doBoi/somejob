@@ -5,7 +5,7 @@
 @section('content')
 
 
-@if ($services)
+@if (count($services))
 <main class="h-full overflow-y-auto">
   <div class="container mx-auto">
     <div class="grid w-full gap-5 px-10 mx-auto md:grid-cols-12">
@@ -14,7 +14,7 @@
           My Services
         </h2>
         <p class="text-sm text-gray-400">
-          3 Total Services
+          {{ count($services) }} Total Services
         </p>
       </div>
       <div class="col-span-4 lg:text-right">
@@ -48,7 +48,8 @@
                   <div class="flex items-center text-sm">
                     <div class="relative w-10 h-10 mr-3 rounded-full md:block">
                       <img class="object-cover w-full h-full rounded"
-                        src="{{ url('https://randomuser.me/api/portraits/men/3.jpg') }}" alt="" loading="lazy" />
+                        src="{{ url(Storage::url($service->thumbnail_service->first()->thumbnail)) }}" alt=""
+                        loading="lazy" />
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>

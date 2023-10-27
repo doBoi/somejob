@@ -3,17 +3,17 @@
 @section('title', 'My Request')
 
 @section('content')
-{{-- @if () --}}
+@if (count($orders))
 
 <main class="h-full overflow-y-auto">
   <div class="container mx-auto">
     <div class="grid w-full gap-5 px-10 mx-auto md:grid-cols-12">
       <div class="col-span-8">
         <h2 class="mt-8 mb-1 text-2xl font-semibold text-gray-700">
-          My Requests
+          Requests
         </h2>
         <p class="text-sm text-gray-400">
-          3 Total Requests
+          {{ count($orders) }} Total Requests
         </p>
       </div>
       <div class="col-span-4 lg:text-right">
@@ -36,14 +36,24 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              @foreach ($orders as $order)
+              @forelse ($orders as $order)
               <tr class="text-gray-700 border-b">
                 <td class="px-1 py-5 text-sm w-2/8">
                   <div class="flex items-center text-sm">
-                    <div class="relative w-10 h-10 mr-3 rounded-full md:block">
-                      <img class="object-cover w-full h-full rounded-full"
-                        src="{{ url('https://randomuser.me/api/portraits/men/6.jpg') }}" alt="" loading="lazy" />
+                    <div class="relative w-10 h-10 mr-3 rounded md:block">
+
+                      @if ($order->user_freelancer->detail_user->photo != null)
+                      <img src="{{ asset('storage/'.$order->user_freelancer->detail_user->photo) }}"
+                        alt="photo freelancer" loading="lazy">
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                      @else
+                      <svg class="w-full h-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      <div class="absolute inset-0 rounded shadow-inner" aria-hidden="true"></div>
+                      @endif
+
                     </div>
                     <div>
                       <p class="font-medium text-black">{{ $order->user_freelancer->name }}</p>
@@ -54,8 +64,17 @@
                 <td class="w-2/6 px-1 py-5">
                   <div class="flex items-center text-sm">
                     <div class="relative w-10 h-10 mr-3 rounded-full md:block">
+                      @if ($order->service->thumbnail_service->first()->thumbnail != null)
                       <img class="object-cover w-full h-full rounded"
-                        src="{{ url('https://randomuser.me/api/portraits/men/3.jpg') }}" alt="" loading="lazy" />
+                        src="{{ url(Storage::url($order->service->thumbnail_service->first()->thumbnail)) }}" alt=""
+                        loading="lazy" />
+                      @else
+                      <svg class="w-full h-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      @endif
+
                       <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>
@@ -68,8 +87,22 @@
                 <td class="px-1 py-5 text-sm">
                   Rp {{number_format($order->service->price, 0, ',', '.') }}
                 </td>
-                <td class="px-1 py-5 text-sm text-green-500 text-md">
+                <td class="px-1 py-5 text-sm
+                @if ($order->order_status_id == 1)
+                      {{ 'text-green-500' }}
+                @elseif($order->order_status_id == 2)
+                      {{ 'text-yellow-500' }}
+                @elseif($order->order_status_id == 3)
+                      {{ 'text-red-500' }}
+                @elseif($order->order_status_id == 4)
+                      {{ 'text-red-700' }}
+                @endif
+                text-md">
+                  @if ((strtotime($order->expired) - strtotime(date('Y-m-d'))) / 86400 >= 1)
                   {{ $order->order_status->name}}
+                  @else
+                  <p class="text-red-500">expired</p>
+                  @endif
                 </td>
                 <td class="px-1 py-5 text-sm">
                   <a href="{{ route('member.request.show',$order->id)}}"
@@ -78,8 +111,10 @@
                   </a>
                 </td>
               </tr>
+              @empty
+              {{-- empty --}}
+              @endforelse
 
-              @endforeach
 
             </tbody>
           </table>
@@ -89,7 +124,7 @@
   </section>
 </main>
 
-{{-- @else
+@else
 
 <div class="flex h-screen">
   <div class="m-auto text-center">
@@ -110,7 +145,7 @@
   </div>
 </div>
 
-@endif --}}
+@endif
 
 
 @endsection

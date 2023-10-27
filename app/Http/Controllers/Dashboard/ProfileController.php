@@ -39,6 +39,7 @@ class ProfileController extends Controller
         $experience_user = ExperienceUser::where('detail_user_id', $user->detail_user->id)
             ->Orderby('id', 'asc')
             ->get();
+        confirmDelete("Delete Photo", "Are you sure want to delete your profile");
 
         return view('pages.dashboard.profile', compact('user', 'experience_user'));
     }
@@ -165,7 +166,7 @@ class ProfileController extends Controller
 
     //custom
 
-    public function delete($id)
+    public function delete()
     {
         //get user
         $get_user_photo = DetailUser::where('user_id', Auth::user()->id)->first();
@@ -174,7 +175,7 @@ class ProfileController extends Controller
         // second update value to null
         $data = DetailUser::find($get_user_photo['id']);
         $data->photo = NULL;
-        $data->save;
+        $data->save();
 
         $data = 'storage/' . $path_photo;
         if (File::exists($data)) {
@@ -183,7 +184,7 @@ class ProfileController extends Controller
             File::delete('storage/app/public/' . $path_photo);
         }
 
-        toast()->success('Delete Has been success');
+        toast()->info('Delete Photo Has been success');
 
         return back();
     }
